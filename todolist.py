@@ -2,33 +2,7 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon, QFont
 
-class PyQt5Bar(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        wg = ()
-        self.Main_bar()
-        self.setCentralWidget(wg)
-
-    def Main_Bar(self):
-        self.statusbar().showMessage('ready')
-
-        self.geometry(300,300,300,200)
-        self.setWindowTitle('StatusBar_Form')
-        self.show()
-
-        menubar = self.menuBar()
-        fileMenu = menubar.addMenu('File')
-
-        detailMenu = QMenu('Detail',self)
-        detailAct = QAction('real Detail',self)
-        detailMenu.addAction(detailAct)
-
-        newAct = QAction('New',self)
-
-        fileMenu.addAction(newAct)
-        fileMenu.addMenu(detailMenu)
-
-class MyApp(QWidget):
+class MyApp(QMainWindow):
 
     def __init__(self):
         super().__init__()
@@ -36,6 +10,24 @@ class MyApp(QWidget):
 
     def initUI(self):
 
+        # 나가기 버튼 만든거 및
+        exitAction = QAction(QIcon('exit.png'), 'Exit', self)
+        exitAction.setShortcut('Ctrl+Q')
+        exitAction.setStatusTip('Exit application')
+        exitAction.triggered.connect(qApp.quit)
+
+        self.statusBar()
+
+        menubar = self.menuBar()
+        menubar.setNativeMenuBar(False)
+        filemenu = menubar.addMenu('&File')
+        filemenu.addAction(exitAction)
+
+
+        self.toolbar = self.addToolBar('Exit')
+        self.toolbar.addAction(exitAction)
+
+        self.statusBar().showMessage('Ready')
 
         QToolTip.setFont(QFont('SansSerif', 10)) # 툴팁에 사용될 폰트 및 사이즈
         self.setToolTip('This is a <b>QWidget</b> widget') # ???
@@ -54,6 +46,5 @@ class MyApp(QWidget):
 
 if __name__ == '__main__':
    app = QApplication(sys.argv)
-   form = PyQt5Bar()
-   form.show()
-   app.exec_()
+   ex = MyApp()
+   sys.exit(app.exec_())
