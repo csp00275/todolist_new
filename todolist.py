@@ -4,7 +4,6 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import QIcon, QFont
 
-form_class = uic.loadUiType("todolist.ui")[0]
 class MyApp(QMainWindow,form_class):
 
     def __init__(self):
