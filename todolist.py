@@ -63,7 +63,6 @@ class MyApp(QMainWindow):
         saveAction.setStatusTip('Exit application')  # 마우스를 올렸을 때 나오는 메시지
         saveAction.triggered.connect(qApp.quit)  # 이 동작을 선택했을 때 생성된 시그널이 위젯의 메서드에 연결되
 
-        self.statusBar()
 
         menubar = self.menuBar() # 메뉴바를 생성함
         menubar.setNativeMenuBar(False) # ???
@@ -72,13 +71,9 @@ class MyApp(QMainWindow):
         filemenu.addAction(saveAction)
 
 
-        self.statusBar().showMessage('Ready')
-
-        self.setWindowTitle('Statusbar')
-        self.setGeometry(300, 300, 300, 200)
+        self.setWindowTitle('박재형의 할 일 정리프로그램')
+        self.setGeometry(300, 300, 600, 400)
         self.show()
-
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
