@@ -5,9 +5,6 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
 class MainWidget(QWidget): # 위젯
-
-    switch_window = QtCore.pyqtSignal() # 뭘까요
-
     def __init__(self):
         super().__init__()
         # 캘린더
@@ -25,9 +22,9 @@ class MainWidget(QWidget): # 위젯
 
 
         # 선택 버튼
-        selcect_btn = QPushButton('&선택',self)
-        selcect_btn.clicked.connect(self.mainwidget)
-        selcect_btn.setCheckable(False)
+        select_btn = QPushButton('&선택',self)
+        select_btn.clicked.connect(self.mainwidget)
+        select_btn.setCheckable(False)
         # selcect_btn.animateClick(True)
         # selcect_btn.toggle()
 
@@ -36,7 +33,7 @@ class MainWidget(QWidget): # 위젯
         vbox = QVBoxLayout()
         vbox.addWidget(cal)  # 달력
         vbox.addWidget(self.lbl)  # 라벨을 수직으로
-        vbox.addWidget(selcect_btn)
+        vbox.addWidget(select_btn)
         self.setLayout(vbox)
 
         self.setGeometry(300, 100, 350, 150) # x, y, width, height
@@ -44,46 +41,27 @@ class MainWidget(QWidget): # 위젯
     # def select_btn_func(self):
 
     def showDate(self, date):  # 날짜를 클릭 할 때 마다 라벨 텍스트가 선택한 날짜로 표시되도록 합니다.
-
         self.lbl.setText(date.toString())
     def mainwidget(self):
-        self.switch_window.emit()
         print('selected')
 
 class TodolistWidget(QWidget):
-
-    switch_window = QtCore.pyqtSignal()
-
-    def __init__(self):
-        super().__init__()
-
-        #
-        super.__init__()
-        self.setWindowTitle('Login')
-
-        layout = QtWidgets.QGridLayout()
-
-        self.button = QtWidgets.QPushButton('Login')
-        self.button.clicked.connect(self.login)
-
-        layout.addWidget(self.button)
-
+    def __init__(self, parent=None):
+        super(LoginWidget, self).__init__(parent)
+        layout = QHBoxLayout()
+        self.select_btn = QPushButton('Login')
+        layout.addWidget(self.select_btn)
         self.setLayout(layout)
 
-        self.setGeometry(300, 100, 350, 150)
-
 class MainWindow(QMainWindow):  # 메인 윈도우
+    def __init__(self, parent=None):
+        super(MainWindow,self).__init__(parent)
 
-    switch_window = QtCore.pyqtSignal()
-
-
-    def __init__(self):
-        super().__init__()
-
-        wg = MainWidget()
-        self.setCentralWidget(wg)
-        # wg2 = TodolistWidget()
-        # self.setCentralWidget(wg2)
+        self.central_widget = QStackedWidget()
+        self.setCentralWidget(self.central_widget)
+        Main_widget = MainWidget()
+        Main_widget.select_btn.cllicked.connect(self.select_btn1)
+        self.central_widget.addWidget(Main_widget)
 
         label1 = QLabel('MainWindow Label', self)
         label1.setAlignment(Qt.AlignCenter)
@@ -106,38 +84,19 @@ class MainWindow(QMainWindow):  # 메인 윈도우
         filemenu.addAction(exitAction)
         filemenu.addAction(saveAction)
 
-
         self.statusBar().showMessage('상태창에뭐쓰지')
 
         self.setWindowTitle('박재형의 할 일 목록')
         self.setGeometry(300, 300, 300, 200)
         self.show()
 
-    def Central(self):
-        todowg = TodolistWidget()
-        MainWindow.centralWidget(todowg)
-
-class Controller:
-
-    def __init__(self):
-        pass
-
-    def show_Main(self):
-        self.MainWid = MainWidget()
-        self.MainWin = MainWindow()
-        self.MainWid.switch_window.connect(self.show_Todolist)
-
-    def show_Todolist(self):
-        print('Todo')
-        MainWindow.Central()
-        self.todolist.show()
-
-
-
+    def select_btn1(self):
+        to_do_list = TodolistWidget(self)
+        self.central_widget.addWidget(to_do_list)
+        self.central_widget.setCurrentWidget(to_do_list)
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    controller = Controller()
-    controller.show_Main()
-
-    sys.exit(app.exec_())
+    app = QApplication([])
+    window = MainWindow()
+    window.show()
+    app.exec_()
