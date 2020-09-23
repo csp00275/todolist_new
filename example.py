@@ -1,8 +1,6 @@
 import sys
-from PyQt5 import QtCore,QtWidgets
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
+
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -16,7 +14,6 @@ class MainWindow(QMainWindow):
         logged_in_widget = LoggedWidget(self)
         self.central_widget.addWidget(logged_in_widget)
         self.central_widget.setCurrentWidget(logged_in_widget)
-
 
 class LoginWidget(QWidget):
     def __init__(self, parent=None):
@@ -35,8 +32,6 @@ class LoggedWidget(QWidget):
         self.label = QLabel('logged in!')
         layout.addWidget(self.label)
         self.setLayout(layout)
-
-
 
 if __name__ == '__main__':
     app = QApplication([])

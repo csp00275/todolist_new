@@ -5,8 +5,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
 class MainWidget(QWidget): # 위젯
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent=None):
+        super(MainWidget,self).__init__(parent)
         # 캘린더
         cal = QCalendarWidget(self) # QcalendarWidget의 객체를 하나 만듭니다.
         cal.setGridVisible(True) # 그리드 온
@@ -23,7 +23,6 @@ class MainWidget(QWidget): # 위젯
 
         # 선택 버튼
         select_btn = QPushButton('&선택',self)
-        select_btn.clicked.connect(self.mainwidget)
         select_btn.setCheckable(False)
         # selcect_btn.animateClick(True)
         # selcect_btn.toggle()
