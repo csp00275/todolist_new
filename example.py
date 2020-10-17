@@ -24,7 +24,6 @@ class LoginWidget(QWidget):
         self.setLayout(layout)
         # you might want to do self.button.click.connect(self.parent().login) here
 
-
 class LoggedWidget(QWidget):
     def __init__(self, parent=None):
         super(LoggedWidget, self).__init__(parent)

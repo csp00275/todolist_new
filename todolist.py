@@ -16,8 +16,6 @@ class MainWindow(QMainWindow):
         main_widget.select_btn.clicked.connect(self.selected) # 메인위젯에서 버튼을 누르면 selected 함수 실행
         self.central_widget.addWidget(main_widget)
 
-
-
         # 메뉴바 내부 열
         exitAction = QAction('Exit', self) # Exit 라벨을 같은 동작을 만듦
         exitAction.setShortcut('Ctrl+Q') # 단축키를 정의함
@@ -39,15 +37,26 @@ class MainWindow(QMainWindow):
         menubar.setNativeMenuBar(False) # ???
         filemenu = menubar.addMenu('&File') # File 앞에 앰퍼샌트가 있어서 alt + F가 단축키임
         filemenu.addAction(exitAction)
-        filemenu.addAction(saveAction)
         filemenu.addAction(openFile)
+        filemenu.addAction(saveAction)
+
 
         # 상태창
         self.statusBar()
-        self.statusBar().showMessage('상태창에뭐쓰지')
+        self.statusBar().showMessage('뭘봐')
 
         self.setWindowTitle('박재형의 할 일 목록')
+
+
+
         self.setGeometry(300, 300, 300, 200)
+
+        # 배경색 설정
+        pal=QPalette()
+        pal.setColor(QPalette.Background,QColor(50,50,50))
+        self.setPalette(pal)
+        self.setAutoFillBackground(True)
+
 
 
     def selected(self): # 센트럴 위젯을 selecting_the_day로 바꾸는 함수
@@ -81,6 +90,8 @@ class MainWidget(QWidget):
         self.lbl = QLabel(self)
         date = cal.selectedDate()  # selectedDate는 현재 선택된 날짜 정보를 가지고 있습니다.
         self.lbl.setText(date.toString())  # 현재 날짜정보를 라벨에 표시되도록 해줍니다.
+        self.lbl.setFont(QFont("D2coding",16))
+        self.lbl.setStyleSheet("color:#A9B7C6")
 
         self.select_btn = QPushButton('선택')
         self.textEdit = QTextEdit()
@@ -122,7 +133,10 @@ class selectedDay(QWidget):
 
 
         self.famous_lbl = QLabel('''우리는 우주끝에 도달 할 수 없지만,
-         그 우주를 창조할 능력이 있다. -박재형-''')
+        그 우주를 창조할 능력이 있다. -박재형-''')
+        self.famous_lbl.setAlignment(Qt.AlignRight)
+        self.famous_lbl.setFont(QFont("D2coding", 16))
+        self.famous_lbl.setStyleSheet("color:#A9B7C6")
         grid.addWidget(self.famous_lbl,*[4,2])
         self.setGeometry(300, 300, 1600, 1200)
         self.move(300, 150)
